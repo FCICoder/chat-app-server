@@ -19,7 +19,7 @@ app.use(cors({
 })); 
 app.use(express.json());
 
-
+app.use('/uploads/profiles' , express.static('uploads/profiles'))
 // ! getting the Cookies from the front end
 app.use(cookieParser());
 
