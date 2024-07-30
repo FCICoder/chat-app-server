@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose, { connect } from 'mongoose';
 import authRoute from './routes/authRoute.js';
+import contactsRoute from './routes/contactRoute.js';
 
 dotenv.config(); //! all the enviroment variables put inside process.env
 
@@ -25,7 +26,7 @@ app.use(cookieParser());
 
 // ! Routes
 app.use('/auth' , authRoute);
-
+app.use('/contacts' , contactsRoute);
 // ! connect to server
 const server = app.listen(port,()=>{
     console.log(`Server listening on ${port} 😎`);
