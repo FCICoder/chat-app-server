@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import mongoose, { connect } from 'mongoose';
 import authRoute from './routes/authRoute.js';
 import contactsRoute from './routes/contactRoute.js';
+import setupSocket from './socket.js';
 
 dotenv.config(); //! all the enviroment variables put inside process.env
 
@@ -31,6 +32,10 @@ app.use('/contacts' , contactsRoute);
 const server = app.listen(port,()=>{
     console.log(`Server listening on ${port} 😎`);
 });
+
+
+// ! Socket
+setupSocket(server);
 
 mongoose.connect(databaseURL).then(()=>{
     console.log("Connected to MongoDB...");
