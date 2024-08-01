@@ -6,6 +6,7 @@ import mongoose, { connect } from 'mongoose';
 import authRoute from './routes/authRoute.js';
 import contactsRoute from './routes/contactRoute.js';
 import setupSocket from './socket.js';
+import messagesRoute from './routes/messagesRoute.js';
 
 dotenv.config(); //! all the enviroment variables put inside process.env
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 // ! Routes
 app.use('/auth' , authRoute);
 app.use('/contacts' , contactsRoute);
+app.use('/messages' , messagesRoute)
 // ! connect to server
 const server = app.listen(port,()=>{
     console.log(`Server listening on ${port} 😎`);
