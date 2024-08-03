@@ -7,6 +7,7 @@ import authRoute from './routes/authRoute.js';
 import contactsRoute from './routes/contactRoute.js';
 import setupSocket from './socket.js';
 import messagesRoute from './routes/messagesRoute.js';
+import channelRoute from './routes/channelRoute.js';
 
 dotenv.config(); //! all the enviroment variables put inside process.env
 
@@ -30,7 +31,8 @@ app.use(cookieParser());
 // ! Routes
 app.use('/auth' , authRoute);
 app.use('/contacts' , contactsRoute);
-app.use('/messages' , messagesRoute)
+app.use('/messages' , messagesRoute);
+app.use('/channel' , channelRoute);
 // ! connect to server
 const server = app.listen(port,()=>{
     console.log(`Server listening on ${port} 😎`);
