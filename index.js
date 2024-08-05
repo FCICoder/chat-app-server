@@ -18,7 +18,7 @@ const databaseURL = process.env.DATABASE_URL;
 // !Middlewares
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:5173' , 'https://chat-app-client-iota-eight.vercel.app/', process.env.ORIGIN],
+    origin: [  'https://chat-app-client-inky.vercel.app/', process.env.ORIGIN , 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
 })); 
 app.use(express.json());
