@@ -2,50 +2,61 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import mongoose, { connect } from 'mongoose';
+import mongoose from 'mongoose';
+import fs from 'fs';
+import path from 'path';
 import authRoute from './routes/authRoute.js';
 import contactsRoute from './routes/contactRoute.js';
 import setupSocket from './socket.js';
 import messagesRoute from './routes/messagesRoute.js';
 import channelRoute from './routes/channelRoute.js';
 
-dotenv.config(); //! all the enviroment variables put inside process.env
+dotenv.config(); // Load environment variables
 
 const app = express();
 const port = process.env.PORT || 3001;
 const databaseURL = process.env.DATABASE_URL;
 
-// !Middlewares
+// Ensure the /tmp/uploads directories exist
+const uploadDirs = ['/tmp/uploads/profiles', '/tmp/uploads/files'];
+uploadDirs.forEach(dir => {
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir, { recursive: true });
+    }
+});
+
+// Middlewares
 app.use(cors({
     credentials: true,
-    origin: [  'https://chat-app-client-inky.vercel.app/', process.env.ORIGIN , 'http://localhost:5173'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
-})); 
+    origin: [
+        'https://chat-app-client-inky.vercel.app', 
+        process.env.ORIGIN, 
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+}));
 app.use(express.json());
-
-app.use('/uploads/profiles' , express.static('uploads/profiles'));
-app.use('/uploads/files', express.static('uploads/files'));
-
-// ! getting the Cookies from the front end
-
+app.use('/uploads/profiles', express.static(path.join('/tmp/uploads/profiles')));
+app.use('/uploads/files', express.static(path.join('/tmp/uploads/files')));
 app.use(cookieParser());
 
-// ! Routes
-app.use('/auth' , authRoute);
-app.use('/contacts' , contactsRoute);
-app.use('/messages' , messagesRoute);
-app.use('/channel' , channelRoute);
-// ! connect to server
-const server = app.listen(port,()=>{
+// Routes
+app.use('/auth', authRoute);
+app.use('/contacts', contactsRoute);
+app.use('/messages', messagesRoute);
+app.use('/channel', channelRoute);
+
+// Connect to server
+const server = app.listen(port, () => {
     console.log(`Server listening on ${port} 😎`);
 });
 
-
-// ! Socket
+// Socket setup
 setupSocket(server);
 
-mongoose.connect(databaseURL).then(()=>{
+// Connect to MongoDB
+mongoose.connect(databaseURL).then(() => {
     console.log("Connected to MongoDB...");
-}).catch(err=>{
-    console.error("Failed to connect to MongoDB",err);
+}).catch(err => {
+    console.error("Failed to connect to MongoDB", err);
 });
