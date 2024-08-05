@@ -27,7 +27,7 @@ uploadDirs.forEach(dir => {
 
 // Middlewares
 app.use(cors({
-    origin:'*', 
+    origin:'https://chat-app-client-inky.vercel.app', 
     methods:['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials:true,
     allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept', 'X-Custom-Header', 'Cookie']  // Add more headers if needed.
