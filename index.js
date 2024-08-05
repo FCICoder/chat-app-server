@@ -27,9 +27,10 @@ uploadDirs.forEach(dir => {
 
 // Middlewares
 app.use(cors({
-    credentials: true,
-    origin:'https://chat-app-client-inky.vercel.app', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    origin:'*', 
+    methods:['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials:true,
+    allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept', 'X-Custom-Header', 'Cookie']  // Add more headers if needed.
 }));
 app.use(express.json());
 app.use('/uploads/profiles', express.static(path.join('/tmp/uploads/profiles')));
