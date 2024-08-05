@@ -51,6 +51,10 @@ const server = app.listen(port, () => {
     console.log(`Server listening on ${port} 😎`);
 });
 
+app.get('/', (req, res) => {
+    res.json({ message: 'CORS is working!' });
+});
+
 // Socket setup
 setupSocket(server);
 
